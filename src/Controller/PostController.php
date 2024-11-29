@@ -165,22 +165,35 @@ class PostController extends AbstractController
 
 
     #[IsGranted('ROLE_ADMIN')]
-    #[Route('/post/delete/{id}', name: 'app_post_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
-    public function delete(int $id, Request $request, EntityManagerInterface $entityManager, PostRepository $postRepository): Response
-    {
-        $post = $postRepository->find($id);
+#[Route('/post/delete/{id}', name: 'app_post_delete', methods: ['POST'], requirements: ['id' => '\d+'])]
+public function delete(int $id, Request $request, EntityManagerInterface $entityManager, PostRepository $postRepository, CommentRepository $commentRepository): Response
+{
+    // Recherche du post à supprimer
+    $post = $postRepository->find($id);
 
-        if (!$post) {
-            throw $this->createNotFoundException('La publication demandée n\'existe pas.');
-        }
-
-        if ($this->isCsrfTokenValid('delete_post_' . $post->getId(), $request->request->get('_token'))) {
-            $entityManager->remove($post);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Publication supprimée avec succès.');
-        }
-
-        return $this->redirectToRoute('app_posts');
+    if (!$post) {
+        throw $this->createNotFoundException('La publication demandée n\'existe pas.');
     }
+
+    // Récupérer les commentaires associés à ce post
+    $comments = $commentRepository->findBy(['post' => $post]);
+
+    // Supprimer tous les commentaires associés
+    foreach ($comments as $comment) {
+        $entityManager->remove($comment);
+    }
+
+    // Vérifier et valider le token CSRF avant de supprimer
+    if ($this->isCsrfTokenValid('delete_post_' . $post->getId(), $request->request->get('_token'))) {
+        // Supprimer le post
+        $entityManager->remove($post);
+        $entityManager->flush();  // Appliquer les suppressions dans la base de données
+
+        // Message flash pour indiquer que la suppression a réussi
+        $this->addFlash('success', 'Publication et commentaires supprimés avec succès.');
+    }
+
+    // Rediriger vers la liste des posts
+    return $this->redirectToRoute('app_posts');
+}
 }
