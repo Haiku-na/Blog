@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publication : {{ post.title }}{% endblock %}
+{% block header %}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('{{ post.picture ? asset('uploads/pictures/' ~ post.picture) : asset('uploads/pictures/default.png') }}');">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>{{ post.title }}</h1>
+                        <h2 class="subheading">Auteur : {{ post.user ? post.user.firstname ~ ' ' ~ post.user.lastname : 'Sans catégorie' }}</h2>
+
+                        <span class="meta">
+                            Date de publication : {{ post.publishedAt ? post.publishedAt|date('d/m/Y H:i') : 'Non publié' }} 
+                            <br>Catégorie : {{ post.category ? post.category.name : 'Sans catégorie' }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+{% block body %}
+    <div class="p-2">
+        <a href="{{ path('app_posts') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+
+    <!-- Post Content -->
+    <article class="mb-4">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <p class="text-pre-wrap">{{ post.content }}</p>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <div class="container mt-5">
+        <h4>Commentaires</h4>
+
+        {% if comments|length > 0 %}
+            <ul class="list-group">
+                {% for comment in comments %}
+                    <li class="list-group-item">
+                        <p><strong>{{ comment.user ? comment.user.firstname : 'Anonyme' }}</strong> a commenté le {{ comment.createAt|date('d/m/Y H:i') }} :</p>
+                        <p>{{ comment.content }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun commentaire pour cette publication.</p>
+        {% endif %}
+
+        <hr>
+
+        <h5>Ajouter un commentaire</h5>
+        <div class="card shadow-sm mt-4">
+            <div class="card-body">
+                {{ form_start(commentForm) }}
+                    <div class="mb-3">
+                        {{ form_label(commentForm.content, 'Votre commentaire', { 'label_attr': { 'class': 'form-label' } }) }}
+                        {{ form_widget(commentForm.content, { 'attr': { 'class': 'form-control', 'placeholder': 'Écrivez votre commentaire ici...' } }) }}
+                        {{ form_errors(commentForm.content) }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-chat-dots"></i> Ajouter
+                    </button>
+                {{ form_end(commentForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

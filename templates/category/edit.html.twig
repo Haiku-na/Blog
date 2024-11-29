@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une Catégorie{% endblock %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/post-bg.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>NOS CATEGORIES</h1>
+                        <h2 class="subheading">Chacune de ces catégories est une porte ouverte vers l’inspiration, l’exploration et un bon moment de détente.</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block body %}
+    <br>
+    <a href="{{ path('app_categories') }}" class="btn btn-primary btn-sm">
+        <i class="bi bi-eye"></i> Retour à la liste
+    </a>
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h2 class="text-center">Modifier une Catégorie</h2>
+            </div>
+            <div class="card-body">
+                {{ form_start(form) }}
+                
+                <div class="mb-3">
+                    {{ form_label(form.name, 'Nom de la catégorie', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(form.name, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(form.name) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(form.description, 'Description', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(form.description, { 'attr': { 'class': 'form-control', 'rows': 5 } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(form.description) }}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+{% endblock %}

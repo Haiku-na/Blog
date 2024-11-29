@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/rickmorty-toilette.webp')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>Formulaire d'inscription</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block title %}inscription{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h2 class="text-center">S'inscrire</h2>
+            </div>
+            <div class="card-body">
+                {{ form_start(registrationForm) }}
+                
+                <div class="mb-3">
+                    {{ form_label(registrationForm.email, 'Email', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.email, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.email) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.firstName, 'Prénom', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.firstName, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.firstName) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.lastName, 'Nom', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.lastName, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.lastName) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.plainPassword, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.profilePicture, 'Photo de profil', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.profilePicture, { 'attr': { 'class': 'form-control' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.profilePicture) }}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    {{ form_label(registrationForm.agreeTerms, 'Accepter les termes et conditions', { 'label_attr': { 'class': 'form-label' } }) }}
+                    {{ form_widget(registrationForm.agreeTerms, { 'attr': { 'class': 'form-check-input' } }) }}
+                    <div class="text-danger">
+                        {{ form_errors(registrationForm.agreeTerms) }}
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
+                
+                {{ form_end(registrationForm) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

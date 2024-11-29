@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Profil{% endblock %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/ri.jpeg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>COMPTE</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card text-center">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="card-title">Profil de {{ user.firstname ~ ' ' ~ user.lastname}}</h2>
+                </div>
+                <div class="card-body">
+                    <img 
+                        src="{{ asset('uploads/pictures/' ~ user.profilePicture) }}" 
+                        alt="Photo de profil" 
+                        class="rounded-circle mb-3"
+                        style="width: 150px; height: 150px; object-fit: cover;"
+                    >
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item"><strong>Email :</strong> {{ user.email }}</li>
+                        <li class="list-group-item"><strong>Date de création :</strong> {{ user.createdAt|date('d/m/Y H:i') }}</li>
+                        <li class="list-group-item"><strong>Dernière mise à jour :</strong> {{ user.updatedAt|date('d/m/Y H:i') }}</li>
+                        <li class="list-group-item"><strong>Rôles :</strong> {{ user.roles|join(', ') }}</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

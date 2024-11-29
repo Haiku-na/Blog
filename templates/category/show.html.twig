@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie : {{ category.name }}{% endblock %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/cat.jpg')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>Détails de la catégorie</h1>
+                        <h2 class="subheading">{{ category.name }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{% block body %}
+
+    <div class="container mt-4">
+        <div class="p-2">
+            <a href="{{ path('app_categories') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Retour
+            </a>
+        </div>
+        <div class="card shadow-lg">
+
+            <div class="card-header bg-primary text-white">
+                <h3>{{ category.name }}</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Description :</strong></p>
+                <p>{{ category.description }}</p>
+
+                <p><strong>Publications associées :</strong></p>
+                {% if category.posts|length > 0 %}
+                    <ul>
+                        {% for post in category.posts %}
+                            <li>
+                                <a href="{{ path('app_post', {'id': post.id}) }}">{{ post.title }}</a> 
+                                - <em>{{ post.publishedAt ? post.publishedAt|date('d/m/Y') : 'Non publié' }}</em>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucune publication associée à cette catégorie.</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

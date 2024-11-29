@@ -1,0 +1,73 @@
+{# templates/user/comments.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs{% endblock %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/rickmorty-toilette.webp')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>Liste des utilisateurs</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+{# templates/user/index.html.twig #}
+
+{# templates/user/usersList.html.twig #}
+
+
+{% block body %}
+    <h1>Liste des utilisateurs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Nom</th>
+                <th>Rôle(s)</th>
+                <th>Actions</th>
+                <th>Commentaires</th>
+                <th>Posts</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.firstName }} {{ user.lastName }}</td>
+                    <td>{{ user.roles | join(', ') }}</td>
+                    <td>
+                        <form action="{{ path('app_user_update_role', { id: user.id }) }}" method="POST">
+                            <div>
+                                <label>
+                                    <input type="radio" name="role" value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}checked{% endif %}>
+                                    Utilisateur
+                                </label>
+                                <label>
+                                    <input type="radio" name="role" value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}checked{% endif %}>
+                                    Administrateur
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-info btn-sm">Mettre à jour le rôle</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_user_comments', { id: user.id }) }}" class="btn btn-primary btn-sm">Voir les commentaires</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('app_user_posts', { id: user.id }) }}" class="btn btn-primary btn-sm">Voir les posts</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

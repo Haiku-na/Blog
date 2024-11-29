@@ -1,0 +1,49 @@
+
+{% extends 'base.html.twig' %}
+{% block header %}
+    <!-- Page Header-->
+    <header class="masthead" style="background-image: url('/img/utilisateur.avif')">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="post-heading">
+                        <h1>Gestion des utilsateurs</h1>
+                        <h2 class="subheading">Commentaires de l'utilisateur</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
+
+
+
+
+
+{% block title %}Commentaires de {{ user.firstName }} {{ user.lastName }}{% endblock %}
+
+{% block body %}
+    <h1>Commentaires de {{ user.firstName }} {{ user.lastName }}</h1>
+
+    {% if comments|length > 0 %}
+        <ul class="list-group">
+            {% for comment in comments %}
+                <li class="list-group-item">
+                    {# Vérifie si le commentaire a un post associé #}
+                    {% if comment.post %}
+                        <p><strong>{{ comment.post.title }}</strong> - {{ comment.createAt|date('d/m/Y H:i') }}</p>
+                    {% else %}
+                        <p><strong>Post supprimé ou non associé</strong> - {{ comment.createAt|date('d/m/Y H:i') }}</p>
+                    {% endif %}
+                    <p>{{ comment.content }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucun commentaire trouvé pour cet utilisateur.</p>
+    {% endif %}
+    
+    <a href="{{ path('app_users') }}" class="btn btn-primary">Retour à la liste des utilisateurs</a>
+{% endblock %}
+
+
